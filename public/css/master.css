@@ -1,3 +1,18 @@
+.buttons form{
+    display: inline-block;
+}
+
 .home h1{
     color: darkseagreen;
+}
+
+.post h2{
+    color: tomato;
+    text-align: center;
+}
+.post .post-body{
+    white-space: pre-line;
+}
+.post .posts .date{
+    width: 100px;
 }

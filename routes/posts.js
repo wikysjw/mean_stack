@@ -8,7 +8,7 @@ router.get("/", function(req, res){
     .sort("-createdAt")
     .exec(function(err, posts){
         if(err) return res.json(err);
-        res.render("posts/index", {posts:[posts]});
+        res.render("posts/index", {posts:posts});
     });
 });
 
@@ -21,7 +21,7 @@ router.get("/new", function(req, res){
 router.post("/", function(req, res){
     Post.create(req.body, function(err, post){
         if(err) return res.json(err);
-        res.redirect("/post");
+        res.redirect("/posts");
     });
 });     
 
@@ -51,10 +51,11 @@ router.put("/:id", function(req, res){
 });
 
 // destroy
-router.delete("/id", function(req, res){
-    Post.remove({_id:rq.params.id}, function(err){
+router.delete("/:id", function(req, res){
+    Post.remove({_id:req.params.id}, function(err){
         if(err) return res.json(err);
         res.redirect("/posts");
+        console.log(req.params.id);
     });
 });
 

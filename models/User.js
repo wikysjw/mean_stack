@@ -3,10 +3,28 @@ var bcrypt = require("bcrypt-nodejs");
 
 // schema
 var userSchema = mongoose.Schema({
- username:{type:String, required:[true,"Username is required!"], unique:true},
- password:{type:String, required:[true,"Password is required!"], select:false},
- name:{type:String, required:[true,"Name is required!"]},
- email:{type:String}
+ username:{
+     type:String, 
+     required:[true,"별명을 적어주세요."],
+     match:[/^.{4,12}$/,"4-12글자로 만들어주세요."], 
+     unique:true,
+    trim:true
+},
+ password:{
+     type:String, 
+     required:[true,"패스워드를 입력해주세요."], 
+     select:false
+    },
+ name:{
+     type:String,
+     required:[true,"이름을 입력해주세요."],
+     trim:true
+    },
+ email:{
+     type:String,
+     match:[/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/, "이메일 형식을 지켜주세요."],
+     trim:true
+    }
 },{
  toObject:{virtuals:true}
 });
@@ -29,29 +47,37 @@ userSchema.virtual("newPassword")
 .set(function(value){ this._newPassword=value; });
 
 // password validation
+var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+var passwordRegexErrorMs = "비밀번호를 8-16자리 영어+숫자조합으로 해주세요.";
 userSchema.path("password").validate(function(v) {
  var user = this;
 
  // create user
  if(user.isNew){
   if(!user.passwordConfirmation){
-   user.invalidate("passwordConfirmation", "Password Confirmation is required!");
+   user.invalidate("passwordConfirmation", "패스워드를 입력해주세요.");
   }
-  if(user.password !== user.passwordConfirmation) {
-   user.invalidate("passwordConfirmation", "Password Confirmation does not matched!");
+  if(!passwordRegex.test(user.password)){
+      user.invalidate("password", passwordRegexErrorMs);
+  }
+  else if(user.password !== user.passwordConfirmation) {
+   user.invalidate("passwordConfirmation", "패스워드가 일치하지않습니다.");
   }
  }
 
  // update user
  if(!user.isNew){
   if(!user.currentPassword){
-   user.invalidate("currentPassword", "Current Password is required!");
+   user.invalidate("currentPassword", "이전 비밀번호를 입력해주세요.");
   }
   if(user.currentPassword && !bcrypt.compareSync(user.currentPassword, user.originalPassword)){
-   user.invalidate("currentPassword", "Current Password is invalid!");
+   user.invalidate("currentPassword", "이전 비밀번호를 입력해주세요.");
   }
-  if(user.newPassword !== user.passwordConfirmation) {
-   user.invalidate("passwordConfirmation", "Password Confirmation does not matched!");
+  if(user.newPassword && !passwordRegex.test(user.newPassword)){
+      user.invalidate("newPassword", passwordRegexErrorMs);
+  }
+  else if(user.newPassword !== user.passwordConfirmation) {
+   user.invalidate("passwordConfirmation", "패스워드가 일치하지않습니다.");
   }
  }
 });

@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var app = express();
+const hostname = '192.168.0.157';
 
 // DB 연결
 //mongoose.connect(process.env.MONGO_DB, {useNewUrlParser:true}); - 환경변수로 연동시 환경변수를 MONGO_DB로 만들어 사용
@@ -28,6 +29,6 @@ app.use("/posts", require("./routes/posts"));
 app.use("/users", require("./routes/users"));
 
 // Port setting
-app.listen(5034, function(){
+app.listen(5034,hostname, function(){
     console.log("server on!");
 });

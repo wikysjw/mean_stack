@@ -30,6 +30,7 @@ app.use(session({secret:"shit", resave:true, saveUninitialized:true}));
 // Routes
 app.use("/", require("./routes/home"));
 app.use("/posts", require("./routes/posts"));
+app.use("/sports", require("./routes/sports"));
 app.use("/users", require("./routes/users"));
 
 // Port setting

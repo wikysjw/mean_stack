@@ -71,7 +71,7 @@ userSchema.path("password").validate(function(v) {
    user.invalidate("currentPassword", "이전 비밀번호를 입력해주세요.");
   }
   if(user.currentPassword && !bcrypt.compareSync(user.currentPassword, user.originalPassword)){
-   user.invalidate("currentPassword", "이전 비밀번호를 입력해주세요.");
+   user.invalidate("currentPassword", "이전 비밀번호값이 틀렸습니다.");
   }
   if(user.newPassword && !passwordRegex.test(user.newPassword)){
       user.invalidate("newPassword", passwordRegexErrorMs);

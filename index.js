@@ -10,7 +10,7 @@ const hostname = '127.0.0.1';
 
 // DB 연결
 //mongoose.connect(process.env.MONGO_DB, {useNewUrlParser:true}); - 환경변수로 연동시 환경변수를 MONGO_DB로 만들어 사용
-mongoose.connect('mongodb://localhost:27017/mean');
+mongoose.connect('mongodb://127.0.0.1:27017/mean');
 var db = mongoose.connection;
 db.once("open", function(){
     console.log("DB connect");

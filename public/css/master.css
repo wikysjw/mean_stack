@@ -51,3 +51,9 @@
     margin-top: 5px;
     margin-bottom: 11px;
    }
+
+   .home-login{
+    max-width: 330px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+   }

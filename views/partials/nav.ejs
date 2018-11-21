@@ -15,8 +15,13 @@
                 <li><a href="/posts">Humor</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/users">User</a></li>
-                <li><a href="/users/new">Sign up</a></li>
+                <% if(isAuthenticated){ %>
+                    <li><a href="/users/<%= currentUser.username %>"><%= currentUser.username %></a></li>
+                    <li><a href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/users/new">Sign up</a></li>
+                    <li><a href="/login">Login</a></li>
+                <% } %>
             </ul>
         </div>
     </div>

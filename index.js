@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var flash = require("connect-flash");
 var session = require("express-session");
+var passport = require("./config/passport");
 var app = express();
 const hostname = '192.168.0.157';
 
@@ -26,6 +27,17 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 app.use(flash());
 app.use(session({secret:"shit", resave:true, saveUninitialized:true}));
+
+// Passport
+app.use(passport.initialize()); // 패스포트를 초기화
+app.use(passport.session()); // 패스포트와 세션을 연결
+
+// Middelewares
+app.use(function(req, res ,next){
+    res.locals.isAuthenticated = req.isAuthenticated(); // passport제공함수 로그인상태확인
+    res.locals.currentUser = req.user; // 로그인된 유저정보 불러오기
+    next();
+});
 
 // Routes
 app.use("/", require("./routes/home"));

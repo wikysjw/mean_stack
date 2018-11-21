@@ -46,6 +46,7 @@ app.use("/sports", require("./routes/sports"));
 app.use("/users", require("./routes/users"));
 
 // Port setting
-app.listen(5034,hostname, function(){
+var port = process.env.PORT || 3000;
+app.listen(port,hostname, function(){
     console.log("server on!");
 });

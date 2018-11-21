@@ -6,7 +6,7 @@ var flash = require("connect-flash");
 var session = require("express-session");
 var passport = require("./config/passport");
 var app = express();
-const hostname = '192.168.0.157';
+const hostname = '127.0.0.1';
 
 // DB 연결
 //mongoose.connect(process.env.MONGO_DB, {useNewUrlParser:true}); - 환경변수로 연동시 환경변수를 MONGO_DB로 만들어 사용

@@ -7,16 +7,15 @@ const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
+var router = express.Router();
 
-const app = express();
+
 
 // Middleware
-app.use(bodyParser.json());
-app.use(methodOverride('_method'));
-app.set('view engine', 'ejs');
+
 
 // Mongo URI
-const mongoURI = 'mongodb://localhost:27017/image';
+const mongoURI = 'mongodb://localhost:27017/mean';
 
 // Create mongo connection
 const conn = mongoose.createConnection(mongoURI);
@@ -53,7 +52,7 @@ const upload = multer({ storage });
 
 // @route GET /
 // @desc Loads form
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   gfs.files.find().toArray((err, files) => {
     // Check if files
     if (!files || files.length === 0) {
@@ -76,14 +75,14 @@ app.get('/', (req, res) => {
 
 // @route POST /upload
 // @desc  Uploads file to DB
-app.post('/upload', upload.single('file'), (req, res) => {
+router.post('/upload', upload.single('file'), (req, res) => {
   // res.json({ file: req.file });
-  res.redirect('/');
+  res.redirect('/aa');
 });
 
 // @route GET /files
 // @desc  Display all files in JSON
-app.get('/files', (req, res) => {
+router.get('/files', (req, res) => {
   gfs.files.find().toArray((err, files) => {
     // Check if files
     if (!files || files.length === 0) {
@@ -99,7 +98,7 @@ app.get('/files', (req, res) => {
 
 // @route GET /files/:filename
 // @desc  Display single file object
-app.get('/files/:filename', (req, res) => {
+router.get('/files/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     // Check if file
     if (!file || file.length === 0) {
@@ -114,7 +113,7 @@ app.get('/files/:filename', (req, res) => {
 
 // @route GET /image/:filename
 // @desc Display Image
-app.get('/image/:filename', (req, res) => {
+router.get('/image/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     // Check if file
     if (!file || file.length === 0) {
@@ -138,16 +137,14 @@ app.get('/image/:filename', (req, res) => {
 
 // @route DELETE /files/:id
 // @desc  Delete file
-app.delete('/files/:id', (req, res) => {
+router.delete('/files/:id', (req, res) => {
   gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
     if (err) {
       return res.status(404).json({ err: err });
     }
 
-    res.redirect('/');
+    res.redirect('/aa');
   });
 });
 
-const port = 5000;
-
-app.listen(port, () => console.log(`Server started on port ${port}`));
+module.exports = router;

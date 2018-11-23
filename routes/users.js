@@ -95,4 +95,4 @@ function parseError(errors){
     return parsed;
    }
 
-module.exports = router
+module.exports = router;

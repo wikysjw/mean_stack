@@ -33,10 +33,28 @@
                 </div>
                 <div class="col-sm-8 col-sm-pull-4">
                     <div class="post-body"><%= sport.body %></div>
+                    <% if(files){ %>
+                        <% files.forEach(function(file) { %>
+                          <div class="card card-body mb-3">
+                            <% if(file.isImage) { %>
+                              <img src="/sports/Image/<%= file.filename %>" alt="">
+                              <% } else { %>
+                                <%= file.filename %>
+                                  <% } %>
+                          <% }) %>
+                            <% } %>
                 </div>
             </div>
         </div>
 
     </div>   
+    <div class="container">
+        <div class="row">
+          <div class="col-md-6 m-auto">
+            
+                    
+          </div>
+        </div>
+      </div>
 </body>
 </html>

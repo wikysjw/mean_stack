@@ -5,7 +5,8 @@ var sportSchema = mongoose.Schema({
     title:{type:String, require:true},
     body:{type:String},
     createdAt:{type:Date, default:Date.now},
-    updated:{type:Date}
+    updated:{type:Date},
+    img:{}
 },{
     toObject:{virtuals:true}
 });

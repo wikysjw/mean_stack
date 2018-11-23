@@ -6,11 +6,11 @@ var flash = require("connect-flash");
 var session = require("express-session");
 var passport = require("./config/passport");
 var app = express();
-const hostname = '127.0.0.1';
+const hostname = '192.168.0.162';
 
 // DB 연결
-mongoose.connect(process.env.MONGO_DB, {useNewUrlParser:true}); //- 환경변수로 연동시 환경변수를 MONGO_DB로 만들어 사용
-// mongoose.connect('mongodb://127.0.0.1:27017/mean');
+// mongoose.connect(process.env.MONGO_DB, {useNewUrlParser:true}); //- 환경변수로 연동시 환경변수를 MONGO_DB로 만들어 사용
+mongoose.connect('mongodb://127.0.0.1:27017/mean');
 var db = mongoose.connection;
 db.once("open", function(){
     console.log("DB connect");
@@ -46,9 +46,10 @@ app.use("/", require("./routes/home"));
 app.use("/posts", require("./routes/posts"));
 app.use("/sports", require("./routes/sports"));
 app.use("/users", require("./routes/users"));
+app.use("/aa", require("./routes/image"));
 
 // Port setting
-var port = process.env.PORT || 3000;
-app.listen(port,hostname, function(){
+var port = process.env.PORT || 5105;
+app.listen(port,hostname ,function(){
     console.log("server on!");
 });

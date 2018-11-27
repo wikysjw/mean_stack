@@ -1,14 +1,13 @@
 var express = require("express");
 var router = express.Router();
 var Sport = require("../models/Sport");
-const bodyParser = require('body-parser');
 const path = require('path');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
-const methodOverride = require('method-override');
+
 // Mongo URI
 const mongoURI = 'mongodb://localhost:27017/mean';
 
@@ -122,38 +121,6 @@ router.delete("/:id", function(req, res){
         console.log(req.params.id);
     });
 });
-
-
-
-
-
-// Middleware
-
-
-
-
-// @route GET /
-// @desc Loads form
-// router.get('/', (req, res) => {
-//   gfs.files.find().toArray((err, files) => {
-//     // Check if files
-//     if (!files || files.length === 0) {
-//       res.render('index', { files: false });
-//     } else {
-//       files.map(file => {
-//         if (
-//           file.contentType === 'image/jpeg' ||
-//           file.contentType === 'image/png'
-//         ) {
-//           file.isImage = true;
-//         } else {
-//           file.isImage = false;
-//         }
-//       });
-//       res.render('index', { files: files });
-//     }
-//   });
-// });
 
 // @route POST /upload
 // @desc  Uploads file to DB

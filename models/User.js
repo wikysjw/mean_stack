@@ -24,7 +24,11 @@ var userSchema = mongoose.Schema({
      type:String,
      match:[/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/, "이메일 형식을 지켜주세요."],
      trim:true
-    }
+    },
+ imagematch:{
+     type:String,
+     trim:true
+    },
 },{
  toObject:{virtuals:true}
 });

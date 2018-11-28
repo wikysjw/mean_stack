@@ -6,7 +6,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <div class="navbar-brand">SAVER</div>
+            <div class="navbar-brand"><a href="/favinco/saver.png"><img src="/favinco/saver.png" width="99pt" height="26pt" alt="SAVER"></a></div>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
@@ -16,7 +16,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <% if(isAuthenticated){ %>
-                    <li><a href="/users/<%= currentUser.username %>"><%= currentUser.username %></a></li>
+                    <li><a href="/users/<%= currentUser.username %>" style="color:rgb(32, 146, 32)"><%= currentUser.name %></a></li>
                     <li><a href="/logout">Logout</a></li>
                 <% } else { %>
                     <li><a href="/users/new">Sign up</a></li>

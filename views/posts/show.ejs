@@ -32,7 +32,23 @@
                     </div>
                 </div>
                 <div class="col-sm-8 col-sm-pull-4">
-                    <div class="post-body"><%= post.body %></div>
+                    <div id="output" class="post-body"><%= post.body %></div>
+                    <script type="text/javascript">
+                        var html_result ="";
+                        html = (`<%= post.body %>`);
+                       
+                        $('#output').html(html);
+                        
+                        html_result = html.replace(/&lt;/g,"<");
+                        html_result2 = html_result.replace(/&gt;/g,">");
+                        html_result3 = html_result2.replace(/&#34;/g,`"`);
+                        html_result4 = html_result3.replace(/&nbsp;/g," ");
+                        html_result5 = html_result4.replace(/&amp;/g,"&");
+                        console.log(html_result);
+                        console.log(html_result3);
+                        console.log(html_result4);
+                        document.getElementById('output').innerHTML = html_result5;
+                      </script> 
                 </div>
             </div>
         </div>

@@ -7,10 +7,18 @@
     <% include ../partials/head %>
 </head>
 <body>
+        <style type="text/css">
+            .vodArea {  top:0%; left:0%; width:1020px; height: auto; display: block;}
+            video { width: 100%; height: 100%;}
+        </style>
     <% include ../partials/nav %>
     <div class="container home home-welcome">
         <div class="jumbotron">
-            <h1 style="color:rgb(32, 146, 32)">SAVER</h1>
+            <!-- <h1 style="color:rgb(32, 146, 32)">SAVER</h1> -->
+            <!-- <video src="/favinco/Battle Force Seoul.mp4" width="1020px" autoplay>브라우저가 비디오플레이어를 지원하지 않습니다.</video> -->
+            <div class="vodArea">
+            <video muted="" preload="true" loop="" autoplay=""><source src="https://nikevideo.nike.com/72451143001/201810/3999/72451143001_5850201580001_5850195674001.mp4" type="video/mp4"></video>
+            </div>
             <a href="/sports"><img src="/favinco/sports2.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/posts"><img src="/favinco/humor.png"></a>
         </div>
     </div>

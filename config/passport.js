@@ -31,7 +31,7 @@ passport.use("local-login",
          } else {
              req.flash("username", username);
              req.flash("errors", {login:"아이디이나 비밀번호가 다릅니다."});
-             return done(null, flash); // done의 첫번째 파라미터는 error을 담기위한 용도 error이 없다면 null을 사용
+             return done(null, false); // done의 첫번째 파라미터는 error을 담기위한 용도 error이 없다면 null을 사용
          }
      });
  }

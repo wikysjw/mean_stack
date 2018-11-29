@@ -18,7 +18,10 @@
                             <input class="form-control" type="text" id="username" name="username" value="<%= username %>">
                             <% if(errors.username){ %>
                                 <span class="help-block"><%= errors.username %></span>
+                            <script>console.log(errors.login);</script>
+
                             <% } %>
+                            <script>console.log(`<% errors.login %>`);</script>
                         </div>
                     </div>
                     <div class="form-group <%= (errors.password)?'has-error':'' %>">
@@ -32,7 +35,7 @@
                     </div>
                     <% if(errors.login){ %>
                         <div class="has-error">
-                            <span class="helpblock"><%= errors.login %></span>
+                            <span class="help-block"><%= errors.login %></span>
                         </div>
                         <% } %>
                 </fieldset>

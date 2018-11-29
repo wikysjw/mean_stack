@@ -13,7 +13,7 @@ router.get("/about", function(req, res){
 // login
 router.get("/login", function(req,res){
     var username = req.flash("username")[0];
-    var errors = req.flash("error")[0] || {};
+    var errors = req.flash("errors")[0] || {};
     res.render("home/login",{
         username:username,
         errors:errors

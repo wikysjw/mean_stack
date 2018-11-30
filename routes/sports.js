@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
+var util = require("../util");
 
 // Mongo URI
 const mongoURI = 'mongodb://localhost:27017/mean';
@@ -59,13 +60,19 @@ router.get("/", function(req, res){
 
 // New
 router.get("/new", function(req, res){
-    res.render("sports/new");
+  var sport = req.flash("sport")[0] || {};
+  var errors = req.flash("errors")[0] || {};
+  res.render("sports/new", { sport:sport, errors:errors });
 });
 
 // create
 router.post("/", upload.single('file'), (req, res) => {
     Sport.create(req.body, function(err, sport){
-        if(err) return res.json(err);
+      if(err){
+        req.flash("sport", req.body);
+        req.flash("errors", util.parseError(err));
+        return res.redirect("/sports/new");
+      }
         res.redirect("/sports");
     });
 });     
@@ -98,18 +105,29 @@ router.get("/:id", function(req, res){
 
 // edit
 router.get("/:id/edit", function(req, res){
+  var sport = req.flash("sport")[0];
+  var errors = req.flash("errors")[0] || {};
+ if(!sport){
     Sport.findOne({_id:req.params.id}, function(err, sport){
-        if(err) return res.json(err);
-        res.render("sports/edit", {sport:sport});
+      if(err) return res.json(err);
+      res.render("sports/edit", {sport:sport, errors:errors});
     });
+  } else {
+    sport._id = req.params.id;
+    res.render("sports/edit", {sport:sport, errors:errors});
+  }
 });
 
 // update
 router.put("/:id", function(req, res){
-    req.body.updatedAt =Date.now();
-    Sport.findOneAndUpdate({_id:req.params.id}, req.body, function(err, sport){
-        if(err) return res.json(err);
-        res.redirect("/sports/"+req.params.id);
+  req.body.updatedAt = Date.now();
+  Sport.findOneAndUpdate({_id:req.params.id}, req.body, {runValidators:true}, function(err, sport){
+   if(err){
+    req.flash("sport", req.body);
+    req.flash("errors", util.parseError(err));
+    return res.redirect("/sports/"+req.params.id+"/edit");
+   }
+   res.redirect("/sports/"+req.params.id);
     });
 });
 

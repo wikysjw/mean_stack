@@ -14,10 +14,12 @@
 
         <div class="buttons">
             <a class="btn btn-default" href="/sports">뒤로가기</a>
+            <% if(isAuthenticated && currentUser.id == sport.author.id){ %>
             <a class="btn btn-default" href="/sports/<%= sport._id %>/edit">수정하기</a>
             <form action="/sports/<%= sport._id %>?_method=delete" method="post">
                 <a class="btn btn-default" href="#" onclick="confirm('정말 삭제 하시겠습니까?')?this.parentElement.submit():null;">삭제하기</a>
             </form>
+            <% } %>
         </div>
 
         <div class="contentBox">
@@ -25,6 +27,7 @@
             <div class="row">
                 <div class="col-sm-4 col-sm-push-8">
                     <div class="post-info">
+                        <div><span>Author</span> : <%= sport.author ? sport.author.username : "" %></div>
                         <div><span>Created</span> : <%= sport.createdDate %> <%= sport.createdTime %></div>
                         <% if(sport.updatedAt){ %>
                             <div><span>Updated</span> : <%= sport.updatedDate %> <%= sport.updatedTime %></div>

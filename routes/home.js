@@ -35,6 +35,7 @@ function(req,res,next){
 
     if(isValid){
         next();
+        console.log(req.user);
     } else {
         req.flash("errors",errors);
         res.redirect("/login");

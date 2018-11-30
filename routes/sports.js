@@ -48,6 +48,7 @@ const upload = multer({ storage });
 // Index
 router.get("/", function(req, res){
     Sport.find({})
+    .populate("author")
     .sort("-createdAt")
     .exec(function(err, sports){
         if(err) return res.json(err);
@@ -59,14 +60,15 @@ router.get("/", function(req, res){
 });
 
 // New
-router.get("/new", function(req, res){
+router.get("/new", util.isLoggedin, function(req, res){
   var sport = req.flash("sport")[0] || {};
   var errors = req.flash("errors")[0] || {};
   res.render("sports/new", { sport:sport, errors:errors });
 });
 
 // create
-router.post("/", upload.single('file'), (req, res) => {
+router.post("/", util.isLoggedin, upload.single('file'), (req, res) => {
+    req.body.author = req.user._id;
     Sport.create(req.body, function(err, sport){
       if(err){
         req.flash("sport", req.body);
@@ -79,7 +81,9 @@ router.post("/", upload.single('file'), (req, res) => {
 
 // show
 router.get("/:id", function(req, res){
-    Sport.findOne({_id:req.params.id}, function(err, sport){
+    Sport.findOne({_id:req.params.id})
+    .populate("author")
+    .exec(function(err, sport){
         if(err) return res.json(err);
         gfs.files.find().toArray((err, files) => {
                 // Check if files
@@ -104,7 +108,7 @@ router.get("/:id", function(req, res){
 });
 
 // edit
-router.get("/:id/edit", function(req, res){
+router.get("/:id/edit", util.isLoggedin, checkPermission, function(req, res){
   var sport = req.flash("sport")[0];
   var errors = req.flash("errors")[0] || {};
  if(!sport){
@@ -119,7 +123,7 @@ router.get("/:id/edit", function(req, res){
 });
 
 // update
-router.put("/:id", function(req, res){
+router.put("/:id", util.isLoggedin, checkPermission, function(req, res){
   req.body.updatedAt = Date.now();
   Sport.findOneAndUpdate({_id:req.params.id}, req.body, {runValidators:true}, function(err, sport){
    if(err){
@@ -132,7 +136,7 @@ router.put("/:id", function(req, res){
 });
 
 // destroy
-router.delete("/:id", function(req, res){
+router.delete("/:id", util.isLoggedin, checkPermission, function(req, res){
     Sport.remove({_id:req.params.id}, function(err){
         if(err) return res.json(err);
         res.redirect("/sports");
@@ -215,3 +219,13 @@ router.delete('/files/:id', (req, res) => {
 });
 
 module.exports = router;
+
+// private
+function checkPermission(req, res, next){
+  Sport.findOne({_id:req.params.id}, function(err, sport){
+      if(err) return res.json(err);
+      if(sport.author != req.user.id) return util.noPermission(req, res);
+
+      next();
+  });
+}

@@ -13,13 +13,16 @@
         <% include ./partials/header %>
 
     <div class="buttons">
+        <% if(isAuthenticated){ %>
         <a class="btn btn-default" href="/sports/new">게시물 작성</a>
+        <% } %>
     </div>
 
     <table class="table table-striped posts">
         <thead>
             <tr>
                 <th class="title">Title</th>
+                <th class="author">Author</th>
                 <th class="date">Date</th>
             </tr>
         </thead>
@@ -32,8 +35,11 @@
             <% sports.forEach(function(sport) { %>
                 <tr>
                     <td class="title">
-                        <a href="/sports/<%= sport._id %>"><div><%= sport.title %></div></a>
+                        <a href="/sports/<%= sport._id %>"><div class="ellipsis"><%= sport.title %></div></a>
                     </td>
+                    <td class="author">
+                            <div class="ellipsis"><%= sport.author ? sport.author.username : "" %></div>
+                        </td>
                     <td class="date">
                         <%= sport.createdDate %>
                     </td>

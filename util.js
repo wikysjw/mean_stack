@@ -25,6 +25,21 @@ util.getTime = function(dateObj){
   return get2digits(dateObj.getHours()) + ":" + get2digits(dateObj.getMinutes())+ ":" + get2digits(dateObj.getSeconds());
 }
 
+util.isLoggedin = function(req, res, next){
+  if(req.isAuthenticated()){
+    next();
+  } else {
+    req.flash("errors", {login:"로그인을 해주세요."});
+    res.redirect("/login");
+  }
+}
+
+util.noPermission = function(req, res){
+  req.flash("errors", {login:"허가 되지 않았습니다."});
+  req.logout();
+  res.redirect("login");
+}
+
 module.exports = util;
 
 // private functions

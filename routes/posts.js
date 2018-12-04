@@ -5,13 +5,22 @@ var util = require("../util");
 
 // Index
 router.get("/", function(req, res){
+    var page = Math.max(1,req.query.page);
+    var limit = 3;
+    Post.count({},function(err,count){
+        if(err) return res.json({success:false, message:err});
+        var skip = (page-1)*limit;
+        var maxPage = Math.ceil(count/limit);
     Post.find({})
     .populate("author")
     .sort("-createdAt")
+    .skip(skip)
+    .limit(limit)
     .exec(function(err, posts){
         if(err) return res.json(err);
-        res.render("posts/index", {posts:posts});
+        res.render("posts/index", {posts:posts, page:page, maxPage:maxPage});
     });
+});
 });
 
 // New
@@ -42,7 +51,8 @@ router.get("/:id", function(req, res){
     .populate("author")
     .exec(function(err, post){
         if(err) return res.json(err);
-        res.render("posts/show", {post:post});
+        res.render("posts/show", {post:post, page:req.query.page});
+        console.log(req.query.page);
     });
 });
 

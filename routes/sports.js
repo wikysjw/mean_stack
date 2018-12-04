@@ -47,15 +47,24 @@ const upload = multer({ storage });
 
 // Index
 router.get("/", function(req, res){
+  var page = Math.max(1,req.query.page);
+    var limit = 3;
+    Sport.count({},function(err,count){
+        if(err) return res.json({success:false, message:err});
+        var skip = (page-1)*limit;
+        var maxPage = Math.ceil(count/limit);
     Sport.find({})
     .populate("author")
     .sort("-createdAt")
+    .skip(skip)
+    .limit(limit)
     .exec(function(err, sports){
         if(err) return res.json(err);
        
-        res.render("sports/index", {sports:sports});
+        res.render("sports/index", {sports:sports, page:page, maxPage:maxPage});
             
           
+    });
     });
 });
 
@@ -101,7 +110,7 @@ router.get("/:id", function(req, res){
                     }
                   });
                  
-                    res.render("sports/show", {sport:sport,files: files});
+                    res.render("sports/show", {sport:sport,files: files, page:req.query.page});
                 }
               });
     });

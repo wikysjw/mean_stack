@@ -35,7 +35,7 @@
             <% sports.forEach(function(sport) { %>
                 <tr>
                     <td class="title">
-                        <a href="/sports/<%= sport._id %>"><div class="ellipsis"><%= sport.title %></div></a>
+                        <a href="/sports/<%= sport._id %>?page=<%=page%>"><div class="ellipsis"><%= sport.title %></div></a>
                     </td>
                     <td class="author">
                             <div class="ellipsis"><%= sport.author ? sport.author.username : "" %></div>
@@ -47,6 +47,20 @@
                 <% }) %>
         </tbody>
     </table>
+    <ul class="pagination pagination-sm justify-content-center">
+            <% var offset = 3; %>
+            <% for(i=1;i<=maxPage;i++){ %>
+                <% if(i<=offset || i>maxPage-offset || (i>=page-(offset-1) && i<=page+(offset-1))){ %>
+                    <% if(i != page){ %>
+                        <li ><a  href="/sports?page=<%= i %>"><%= i %></a></li>
+                    <% } else { %>
+                        <li ><a  href="/sports?page=<%= i %>"><%= i %></a></li>
+                    <% } %>
+                <% } else if(i == offset+1 || i == maxPage-offset){ %>
+                    <li ><a  >...</a></li>
+                <% } %>
+            <% } %>
+        </ul>
     </div>
 </body>
 </html>

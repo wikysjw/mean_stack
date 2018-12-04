@@ -13,7 +13,7 @@
         <% include ./partials/header %>
 
         <div class="buttons">
-            <a class="btn btn-default" href="/sports">뒤로가기</a>
+            <a class="btn btn-default" href="/sports?page=<%= page %>"">뒤로가기</a>
             <% if(isAuthenticated && currentUser.id == sport.author.id){ %>
             <a class="btn btn-default" href="/sports/<%= sport._id %>/edit">수정하기</a>
             <form action="/sports/<%= sport._id %>?_method=delete" method="post">
